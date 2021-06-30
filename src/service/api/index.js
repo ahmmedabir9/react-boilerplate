@@ -7,16 +7,15 @@ export const getApi = async (action) => {
     setAuthToken(localStorage.getItem("auth_token"));
     const response = await Axios.get(`${config.serverURL}${action}`);
     return {
-      data: response.data,
-      isSuccess: true,
+      data: response.data.data,
+      isSuccess: response.data.status,
       status: response.status,
     };
   } catch (error) {
-    console.log(error);
     return {
-      data: null,
-      isSuccess: false,
-      status: null,
+      data: error.response?.data?.message,
+      isSuccess: error.response?.data?.status,
+      status: error.response?.status,
     };
   }
 };
@@ -26,16 +25,15 @@ export const postApi = async (action, data) => {
     setAuthToken(localStorage.getItem("auth_token"));
     const response = await Axios.post(`${config.serverURL}${action}`, data);
     return {
-      data: response.data,
-      isSuccess: true,
+      data: response.data.data,
+      isSuccess: response.data.status,
       status: response.status,
     };
   } catch (error) {
-    console.log(error);
     return {
-      data: null,
-      isSuccess: false,
-      status: null,
+      data: error.response?.data?.message,
+      isSuccess: error.response?.data?.status,
+      status: error.response?.status,
     };
   }
 };
@@ -45,16 +43,15 @@ export const putApi = async (action, data) => {
     setAuthToken(localStorage.getItem("auth_token"));
     const response = await Axios.put(`${config.serverURL}${action}`, data);
     return {
-      data: response.data,
-      isSuccess: true,
+      data: response.data.data,
+      isSuccess: response.data.status,
       status: response.status,
     };
   } catch (error) {
-    console.log(error);
     return {
-      data: null,
-      isSuccess: false,
-      status: null,
+      data: error.response?.data?.message,
+      isSuccess: error.response?.data?.status,
+      status: error.response?.status,
     };
   }
 };
@@ -64,6 +61,8 @@ export const postFormData = async (action, file) => {
     setAuthToken(localStorage.getItem("auth_token"));
     let formData = new FormData();
     formData.append("image", file);
+    console.log(file);
+    console.log(formData);
     const response = await Axios.post(
       `${config.serverURL}${action}`,
       formData,
@@ -73,17 +72,18 @@ export const postFormData = async (action, file) => {
         },
       }
     );
+    console.log(response);
     return {
-      data: response.data,
-      isSuccess: true,
+      data: response.data.data,
+      isSuccess: response.data.status,
       status: response.status,
     };
   } catch (error) {
     console.log(error);
     return {
-      data: null,
-      isSuccess: false,
-      status: null,
+      data: error.response?.data?.message,
+      isSuccess: error.response?.data?.status,
+      status: error.response?.status,
     };
   }
 };
